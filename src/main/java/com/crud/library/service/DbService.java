@@ -1,40 +1,47 @@
 package com.crud.library.service;
 
 import com.crud.library.domain.Book;
-import com.crud.library.repository.LibraryRepository;
+import com.crud.library.domain.Copy;
+import com.crud.library.domain.dao.BookDao;
+import com.crud.library.domain.dao.CopyDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class DbService {
 
     @Autowired
-    private LibraryRepository repository;
+    private BookDao bookDao;
+    @Autowired
+    private CopyDao copyDao;
 
-    private List<Book> getAllBooks() {
-        return repository.findAll();
+    public List<Book> searchBookByTitle(String title) {
+        return bookDao.searchBookByTitle(title);
     }
 
-    public Optional<Book> getBook(final Long id) {
-        return repository.findById(id);
+    public List<Book> searchBookByAuthor(String author) {
+        return bookDao.searchBookByAuthor(author);
     }
 
-    public List<Book> searchBook(final String str) {
-        return getAllBooks().stream()
-                .filter(t -> t.getAuthor().toLowerCase().contains(str.toLowerCase())
-                        || t.getTitle().toLowerCase().contains(str.toLowerCase()))
-                .collect(Collectors.toList());
+    public List<Book> searchBook(String query) {
+        return bookDao.searchBook(query);
     }
 
-    public Book saveBook(final Book book) {
-        return repository.save(book);
+    public void deleteBook(Long id) {
+        bookDao.delete(id);
     }
 
-    public void deleteBook(final Long id) {
-        repository.delete(id);
+    public Book saveBook(Book book) {
+        return bookDao.save(book);
+    }
+
+    public void deleteCopy(Long id) {
+        copyDao.delete(id);
+    }
+
+    public Copy saveCopy(Copy copy) {
+        return copyDao.save(copy);
     }
 }

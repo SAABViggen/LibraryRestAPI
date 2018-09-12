@@ -1,11 +1,12 @@
 package com.crud.library.domain;
 
+import com.crud.library.domain.dao.CopyDao;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @NamedQueries({
@@ -29,6 +30,9 @@ import java.util.List;
 @Entity(name = "books")
 public class Book {
 
+    @Autowired
+    CopyDao copyDao;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -41,6 +45,11 @@ public class Book {
 
     @Column(name = "publication_year")
     private int publicationYear;
+
+    @Column(name = "copies")
+    public int copiesNumber() {
+        return copyDao.countCopies(id);
+    }
 
     @OneToMany(
             targetEntity = Copy.class,

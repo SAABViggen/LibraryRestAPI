@@ -20,9 +20,19 @@ public class LibraryController {
     @Autowired
     BookMapper bookMapper;
 
+    @RequestMapping(method = RequestMethod.GET, value = "searchBookByTitle")
+    public List<BookDto> searchBookByTitle(@RequestParam String title) {
+        return bookMapper.mapToBookDtoList(service.searchBookByTitle(title));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "searchBookByAuthor")
+    public List<BookDto> searchBookByAuthor(@RequestParam String author) {
+        return bookMapper.mapToBookDtoList(service.searchBookByAuthor(author));
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "searchBook")
-    public List<BookDto> searchBook(@RequestParam String str) {
-        return bookMapper.mapToBookDtoList(service.searchBook(str));
+    public List<BookDto> searchBook(@RequestParam String query) {
+        return bookMapper.mapToBookDtoList(service.searchBook(query));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteBook")

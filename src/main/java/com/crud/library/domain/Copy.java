@@ -6,6 +6,10 @@ import lombok.Getter;
 
 import javax.persistence.*;
 
+@NamedQuery(
+        name = "Copy.countCopies",
+        query = "COUNT(*) FROM Copy WHERE book_ID = :BOOK_ID"
+)
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode

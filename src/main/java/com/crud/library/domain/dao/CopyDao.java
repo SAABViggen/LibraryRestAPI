@@ -1,29 +1,22 @@
 package com.crud.library.domain.dao;
 
-import com.crud.library.domain.Book;
+import com.crud.library.domain.Copy;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Transactional
 @Repository
-public interface BookDao extends CrudRepository<Book, Long> {
+public interface CopyDao extends CrudRepository<Copy, Long> {
 
     @Query
-    List<Book> searchBookByTitle(@Param("TITLE") String title);
-
-    @Query
-    List<Book> searchBookByAuthor(@Param("AUTHOR") String author);
-
-    @Query
-    List<Book> searchBook(@Param("QUERY") String query);
+    int countCopies(@Param("BOOK_ID") Long bookId);
 
     @Override
-    Book save(Book book);
+    Copy save(Copy copy);
 
     void delete(Long id);
 }
