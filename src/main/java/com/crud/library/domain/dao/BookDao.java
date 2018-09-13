@@ -13,14 +13,16 @@ import java.util.List;
 @Repository
 public interface BookDao extends CrudRepository<Book, Long> {
 
-    @Query
+/*    @Query
     List<Book> searchBookByTitle(@Param("TITLE") String title);
 
     @Query
     List<Book> searchBookByAuthor(@Param("AUTHOR") String author);
 
     @Query
-    List<Book> searchBook(@Param("QUERY") String query);
+    List<Book> searchBook(@Param("QUERY") String query);*/
+
+    List<Book> search(List<SearchCriteria> params);
 
     @Override
     Book save(Book book);

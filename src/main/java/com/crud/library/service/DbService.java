@@ -4,6 +4,7 @@ import com.crud.library.domain.Book;
 import com.crud.library.domain.Copy;
 import com.crud.library.domain.dao.BookDao;
 import com.crud.library.domain.dao.CopyDao;
+import com.crud.library.domain.dao.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class DbService {
     @Autowired
     private CopyDao copyDao;
 
-    public List<Book> searchBookByTitle(String title) {
+/*    public List<Book> searchBookByTitle(String title) {
         return bookDao.searchBookByTitle(title);
     }
 
@@ -27,6 +28,10 @@ public class DbService {
 
     public List<Book> searchBook(String query) {
         return bookDao.searchBook(query);
+    }*/
+
+    public List<Book> search(List<SearchCriteria> query) {
+        return bookDao.search(query);
     }
 
     public void deleteBook(Long id) {

@@ -1,6 +1,8 @@
 package com.crud.library.controller;
 
+import com.crud.library.domain.Book;
 import com.crud.library.domain.BookDto;
+import com.crud.library.domain.dao.SearchCriteria;
 import com.crud.library.mapper.BookMapper;
 import com.crud.library.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/library")
+@RequestMapping("/v1/library/book")
 public class LibraryController {
 
     @Autowired
@@ -20,33 +22,38 @@ public class LibraryController {
     @Autowired
     BookMapper bookMapper;
 
-    @RequestMapping(method = RequestMethod.GET, value = "searchBookByTitle")
+/*    @RequestMapping(method = RequestMethod.GET)
     public List<BookDto> searchBookByTitle(@RequestParam String title) {
         return bookMapper.mapToBookDtoList(service.searchBookByTitle(title));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "searchBookByAuthor")
+    @RequestMapping(method = RequestMethod.GET)
     public List<BookDto> searchBookByAuthor(@RequestParam String author) {
         return bookMapper.mapToBookDtoList(service.searchBookByAuthor(author));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "searchBook")
+    @RequestMapping(method = RequestMethod.GET)
     public List<BookDto> searchBook(@RequestParam String query) {
         return bookMapper.mapToBookDtoList(service.searchBook(query));
+    }*/
+
+    @RequestMapping(method = RequestMethod.GET)
+    public List<BookDto> searchBook(@RequestParam List<SearchCriteria> query) {
+        return bookMapper.mapToBookDtoList(service.search(query));
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteBook")
+    @RequestMapping(method = RequestMethod.DELETE)
     public void deleteBook(@RequestParam Long bookId) {
         service.deleteBook(bookId);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateBook")
-    public BookDto updateTask(@RequestBody BookDto bookDto) {
-        return bookMapper.mapToBookDto(service.saveBook(bookMapper.mapToBook(bookDto)));
+    @RequestMapping(method = RequestMethod.PUT)
+    public BookDto updateTask(@RequestBody Book book) {
+        return bookMapper.mapToBookDto(service.saveBook(book));
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createBook", consumes = APPLICATION_JSON_VALUE)
-    public void createBook(@RequestBody BookDto bookDto) {
-        service.saveBook(bookMapper.mapToBook(bookDto));
+    @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
+    public void createBook(@RequestBody Book book) {
+        service.saveBook(book);
     }
 }
