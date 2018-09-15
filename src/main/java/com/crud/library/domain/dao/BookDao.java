@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Repository
@@ -21,6 +22,8 @@ public interface BookDao extends CrudRepository<Book, Long> {
 
     @Query
     List<Book> searchBook(@Param("QUERY") String query);*/
+
+    Optional<Book> findById(Long id);
 
     List<Book> search(List<SearchCriteria> params);
 

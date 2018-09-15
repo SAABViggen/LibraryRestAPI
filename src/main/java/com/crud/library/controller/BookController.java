@@ -15,7 +15,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/v1/library/book")
-public class LibraryController {
+public class BookController {
 
     @Autowired
     DbService service;
@@ -37,23 +37,28 @@ public class LibraryController {
         return bookMapper.mapToBookDtoList(service.searchBook(query));
     }*/
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<BookDto> searchBook(@RequestParam List<SearchCriteria> query) {
-        return bookMapper.mapToBookDtoList(service.search(query));
-    }
-
-    @RequestMapping(method = RequestMethod.DELETE)
-    public void deleteBook(@RequestParam Long bookId) {
-        service.deleteBook(bookId);
-    }
-
-    @RequestMapping(method = RequestMethod.PUT)
-    public BookDto updateTask(@RequestBody Book book) {
-        return bookMapper.mapToBookDto(service.saveBook(book));
-    }
-
     @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
     public void createBook(@RequestBody Book book) {
         service.saveBook(book);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public BookDto updateBook(@RequestBody Book book) {
+        return bookMapper.mapToBookDto(service.saveBook(book));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{bookId}")
+    public void deleteBook(@PathVariable Long bookId) {
+        service.deleteBook(bookId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{bookId}")
+    public Book getBook(@PathVariable Long bookId) throws BookNotFoundException {
+        return service.getBook(bookId).orElseThrow(BookNotFoundException::new);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/search")
+    public List<BookDto> searchBook(@RequestParam List<SearchCriteria> query) {
+        return bookMapper.mapToBookDtoList(service.search(query));
     }
 }
