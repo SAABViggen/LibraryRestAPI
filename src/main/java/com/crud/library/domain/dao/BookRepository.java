@@ -13,7 +13,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
-public class BookRepository implements BookDao {
+public class BookRepository { //implements BookDao {
 
     @Autowired
     BookDao bookDao;
@@ -21,7 +21,6 @@ public class BookRepository implements BookDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Override
     public List<Book> search(List<SearchCriteria> params) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Book> query = builder.createQuery(Book.class);
@@ -51,16 +50,6 @@ public class BookRepository implements BookDao {
         }
         query.where(predicate);
 
-        List<Book> result = entityManager.createQuery(query).getResultList();
-        return result;
-    }
-
-    public Book save(Book book) {
-        entityManager.persist(book);
-        return book;
-    }
-
-    public void delete(Long id) {
-        bookDao.delete(id);
+        return entityManager.createQuery(query).getResultList();
     }
 }
