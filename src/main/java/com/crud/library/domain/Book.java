@@ -7,21 +7,6 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.util.List;
 
-@NamedQueries({
-        @NamedQuery(
-                name = "Book.searchBookByTitle",
-                query = "FROM Book WHERE title LIKE CONCAT ('%', :TITLE, '%')"
-        ),
-        @NamedQuery(
-                name = "Book.searchBookByAuthor",
-                query = "FROM Book WHERE author LIKE CONCAT ('%', :AUTHOR, '%')"
-        ),
-        @NamedQuery(
-                name = "Book.searchBook",
-                query = "FROM Book WHERE title LIKE CONCAT ('%', :QUERY, '%') " +
-                        "OR author LIKE CONCAT ('%', :QUERY, '%')"
-        )
-})
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -43,7 +28,7 @@ public class Book {
 
     @OneToMany(
             targetEntity = Copy.class,
-            mappedBy = "books",
+            mappedBy = "bookId",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )

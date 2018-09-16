@@ -13,6 +13,10 @@ import java.time.LocalDateTime;
 @Entity(name = "rents")
 public class Rents {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "copy_ID")
     private Copy copyId;

@@ -4,6 +4,7 @@ import com.crud.library.controller.BookNotFoundException;
 import com.crud.library.domain.Book;
 import com.crud.library.domain.Copy;
 import com.crud.library.domain.Reader;
+import com.crud.library.domain.SearchBookDto;
 import com.crud.library.domain.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,23 +19,11 @@ public class DbService {
     @Autowired
     private BookDao bookDao;
     @Autowired
-    private BookRepository bookRepository;
+    private BookRepositoryCustomImpl bookRepository;
     @Autowired
     private CopyDao copyDao;
     @Autowired
     private ReaderDao readerDao;
-
-/*    public List<Book> searchBookByTitle(String title) {
-        return bookDao.searchBookByTitle(title);
-    }
-
-    public List<Book> searchBookByAuthor(String author) {
-        return bookDao.searchBookByAuthor(author);
-    }
-
-    public List<Book> searchBook(String query) {
-        return bookDao.searchBook(query);
-    }*/
 
     public Book saveBook(final Book book) {
         return bookDao.save(book);
@@ -48,8 +37,8 @@ public class DbService {
         return Optional.ofNullable(bookDao.findById(id)).orElseThrow(BookNotFoundException::new);
     }
 
-    public List<Book> search(final List<SearchCriteria> query) {
-        return bookRepository.search(query);
+    public List<Book> search(final SearchBookDto searchBookDto) {
+        return bookRepository.filterBy(searchBookDto);
     }
 
     public Copy saveCopy(final Copy copy) {

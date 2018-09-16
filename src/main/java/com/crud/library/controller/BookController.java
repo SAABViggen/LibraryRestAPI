@@ -2,7 +2,7 @@ package com.crud.library.controller;
 
 import com.crud.library.domain.Book;
 import com.crud.library.domain.BookDto;
-import com.crud.library.domain.dao.SearchCriteria;
+import com.crud.library.domain.SearchBookDto;
 import com.crud.library.mapper.BookMapper;
 import com.crud.library.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,21 +21,6 @@ public class BookController {
     DbService service;
     @Autowired
     BookMapper bookMapper;
-
-/*    @RequestMapping(method = RequestMethod.GET)
-    public List<BookDto> searchBookByTitle(@RequestParam String title) {
-        return bookMapper.mapToBookDtoList(service.searchBookByTitle(title));
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public List<BookDto> searchBookByAuthor(@RequestParam String author) {
-        return bookMapper.mapToBookDtoList(service.searchBookByAuthor(author));
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public List<BookDto> searchBook(@RequestParam String query) {
-        return bookMapper.mapToBookDtoList(service.searchBook(query));
-    }*/
 
     @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
     public void createBook(@RequestBody Book book) {
@@ -58,7 +43,7 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/search")
-    public List<BookDto> searchBook(@RequestParam List<SearchCriteria> query) {
-        return bookMapper.mapToBookDtoList(service.search(query));
+    public List<BookDto> searchBook(SearchBookDto searchBookDto) {
+        return bookMapper.mapToBookDtoList(service.search(searchBookDto));
     }
 }
