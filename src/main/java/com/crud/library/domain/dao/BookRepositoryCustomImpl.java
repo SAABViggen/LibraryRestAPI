@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,13 +27,15 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
         CriteriaQuery<Book> query = builder.createQuery(Book.class);
         Root book = query.from(Book.class);
 
-        if (!searchBookDto.getTitle().isEmpty()) {
+        if (!searchBookDto.getTitle().isEmpty() && searchBookDto.getAuthor().isEmpty()) {
             query.select(book).where(builder.equal(book.get("title"), searchBookDto.getTitle()));
-        } else if (!searchBookDto.getAuthor().isEmpty()) {
+        } else if (!searchBookDto.getAuthor().isEmpty() && searchBookDto.getTitle().isEmpty()) {
             query.select(book).where(builder.equal(book.get("author"), searchBookDto.getAuthor()));
         } else if (!searchBookDto.getTitle().isEmpty() && !searchBookDto.getAuthor().isEmpty()) {
             query.select(book).where(builder.equal(book.get("title"), searchBookDto.getTitle()));
             query.select(book).where(builder.equal(book.get("author"), searchBookDto.getAuthor()));
+        } else {
+            return new ArrayList<>();
         }
 
         return entityManager.createQuery(query).getResultList();
