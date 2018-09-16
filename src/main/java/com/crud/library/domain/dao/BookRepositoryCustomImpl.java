@@ -32,8 +32,8 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
         } else if (!searchBookDto.getAuthor().isEmpty() && searchBookDto.getTitle().isEmpty()) {
             query.select(book).where(builder.equal(book.get("author"), searchBookDto.getAuthor()));
         } else if (!searchBookDto.getTitle().isEmpty() && !searchBookDto.getAuthor().isEmpty()) {
-            query.multiselect(book).where(builder.equal(book.get("title"), searchBookDto.getTitle()))
-                    .where(builder.equal(book.get("author"), searchBookDto.getAuthor()));
+            query.multiselect(book).where(builder.equal(book.get("author"), searchBookDto.getAuthor()))
+                    .where(builder.equal(book.get("title"), searchBookDto.getTitle()));
 
         } else {
             return new ArrayList<>();
