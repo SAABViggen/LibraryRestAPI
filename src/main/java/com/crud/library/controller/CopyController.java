@@ -1,6 +1,7 @@
 package com.crud.library.controller;
 
 import com.crud.library.domain.Copy;
+import com.crud.library.domain.Rents;
 import com.crud.library.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,11 @@ public class CopyController {
     @RequestMapping(method = RequestMethod.PUT)
     public Copy updateCopy(@RequestBody Copy copy) {
         return service.saveCopy(copy);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public Copy updateCopyStatus(@RequestBody Rents rent) {
+        return service.updateCopyStatus(rent);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{copyId}")

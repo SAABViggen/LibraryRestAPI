@@ -1,14 +1,16 @@
 package com.crud.library.service;
 
 import com.crud.library.controller.BookNotFoundException;
-import com.crud.library.domain.Book;
-import com.crud.library.domain.Copy;
-import com.crud.library.domain.Reader;
-import com.crud.library.domain.SearchBookDto;
+import com.crud.library.domain.*;
 import com.crud.library.domain.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +26,10 @@ public class DbService {
     private CopyDao copyDao;
     @Autowired
     private ReaderDao readerDao;
+    @Autowired
+    private RentsDao rentsDao;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public Book saveBook(final Book book) {
         return bookDao.save(book);
@@ -53,6 +59,18 @@ public class DbService {
         return getBook(bookId).isPresent() ? getBook(bookId).get().getCopies() : new ArrayList<>();
     }
 
+    public Copy updateCopyStatus(final Rents rent) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaUpdate<Copy> criteria = builder.createCriteriaUpdate(Copy.class);
+        String status = rent.getCopyId().getStatus().equals("available") ? "rented" : "available";
+        Root<Copy> root = criteria.from(Copy.class);
+        criteria.set(root.get("status"), status);
+        criteria.where(builder.equal(root.get("id"), rent.getCopyId()));
+        entityManager.createQuery(criteria).executeUpdate();
+
+        return rent.getCopyId();
+    }
+
     public Reader saveReader(final Reader reader) {
         return readerDao.save(reader);
     }
@@ -60,4 +78,8 @@ public class DbService {
     public void deleteReader(final Long id) {
         readerDao.deleteById(id);
     }
+
+    public Rents saveRent(final Rents rent) { return rentsDao.save(rent); }
+
+
 }
