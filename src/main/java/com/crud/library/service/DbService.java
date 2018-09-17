@@ -59,10 +59,9 @@ public class DbService {
         return getBook(bookId).isPresent() ? getBook(bookId).get().getCopies() : new ArrayList<>();
     }
 
-    public Copy updateCopyStatus(final Rents rent) {
+    public Copy updateCopyStatus(final Rents rent, String status) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaUpdate<Copy> criteria = builder.createCriteriaUpdate(Copy.class);
-        String status = rent.getCopyId().getStatus().equals("available") ? "rented" : "available";
         Root<Copy> root = criteria.from(Copy.class);
         criteria.set(root.get("status"), status);
         criteria.where(builder.equal(root.get("id"), rent.getCopyId()));
@@ -79,7 +78,9 @@ public class DbService {
         readerDao.deleteById(id);
     }
 
-    public Rents saveRent(final Rents rent) { return rentsDao.save(rent); }
+    public Rents saveRent(final Rents rent) {
+        return rentsDao.save(rent);
+    }
 
 
 }
