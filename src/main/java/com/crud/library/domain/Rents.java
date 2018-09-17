@@ -3,12 +3,14 @@ package com.crud.library.domain;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 @Entity(name = "rents")
 public class Rents {
@@ -18,11 +20,11 @@ public class Rents {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "copy_ID")
+    @JoinColumn(name = "copy_id")
     private Copy copyId;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "reader_ID")
+    @JoinColumn(name = "reader_id")
     private Reader readerId;
 
     @Column(name = "rent_date")

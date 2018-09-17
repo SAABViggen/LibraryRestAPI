@@ -30,7 +30,7 @@ public class DbService {
     }
 
     public void deleteBook(final Long id) {
-        bookDao.delete(id);
+        bookDao.deleteById(id);
     }
 
     public Optional<Book> getBook(final Long id) throws BookNotFoundException {
@@ -46,7 +46,7 @@ public class DbService {
     }
 
     public void deleteCopy(final Long id) {
-        copyDao.delete(id);
+        copyDao.deleteById(id);
     }
 
     public List<Copy> getAllCopies(final Long bookId) throws BookNotFoundException {
@@ -58,6 +58,6 @@ public class DbService {
     }
 
     public void deleteReader(final Long id) {
-        readerDao.delete(id);
+        readerDao.deleteById(id);
     }
 }

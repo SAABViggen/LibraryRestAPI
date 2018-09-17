@@ -5,6 +5,7 @@ import com.crud.library.domain.BookDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -16,12 +17,13 @@ public class BookMapper {
                 book.getTitle(),
                 book.getAuthor(),
                 book.getPublicationYear(),
-                book.getCopies().size());
+                Optional.ofNullable(book.getCopies().size()).orElse(0));
     }
 
     public List<BookDto> mapToBookDtoList(final List<Book> books) {
         return books.stream()
-                .map(book -> new BookDto(book.getId(), book.getTitle(), book.getAuthor(), book.getPublicationYear(), book.getCopies().size()))
+                .map(book -> new BookDto(book.getId(), book.getTitle(), book.getAuthor(),
+                        book.getPublicationYear(), Optional.ofNullable(book.getCopies().size()).orElse(0)))
                 .collect(Collectors.toList());
     }
 }

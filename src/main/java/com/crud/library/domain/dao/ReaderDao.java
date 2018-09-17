@@ -12,6 +12,4 @@ public interface ReaderDao extends CrudRepository<Reader, Long> {
 
     @Override
     Reader save(Reader reader);
-
-    void delete(Long id);
 }

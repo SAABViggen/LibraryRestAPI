@@ -12,6 +12,4 @@ public interface CopyDao extends CrudRepository<Copy, Long> {
 
     @Override
     Copy save(Copy copy);
-
-    void delete(Long id);
 }

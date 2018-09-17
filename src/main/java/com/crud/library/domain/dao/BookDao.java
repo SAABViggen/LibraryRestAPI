@@ -15,6 +15,4 @@ public interface BookDao extends CrudRepository<Book, Long>, BookRepositoryCusto
 
     @Override
     Book save(Book book);
-
-    void delete(Long id);
 }
