@@ -48,7 +48,10 @@ public class DbService {
     }
 
     public Copy saveCopy(final Copy copy) {
-        return copyDao.save(copy);
+        return bookDao.findById(copy.getBookId().getId()).map(book -> {
+            copy.setBookId(book);
+            return copyDao.save(copy);
+        }).orElseThrow(() -> new RuntimeException("book " + copy.getBookId() + " not found"));
     }
 
     public void deleteCopy(final Long id) {

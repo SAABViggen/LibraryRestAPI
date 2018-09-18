@@ -1,13 +1,12 @@
 package com.crud.library.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -20,6 +19,7 @@ public class Copy {
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "book_id")
+    @JsonIgnore
     private Book bookId;
 
     @Column(name = "status")
