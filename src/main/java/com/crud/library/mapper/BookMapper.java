@@ -16,13 +16,13 @@ public class BookMapper {
                 book.getId(),
                 book.getTitle(),
                 book.getAuthor(),
-                book.getPublicationYear(),
+                book.getPubYear(),
                 Optional.ofNullable(book.getCopies()).map(List::size).orElse(0));
     }
 
     public List<BookDto> mapToBookDtoList(final List<Book> books) {
         return books.stream()
-                .map(book -> new BookDto(book.getId(), book.getTitle(), book.getAuthor(), book.getPublicationYear(),
+                .map(book -> new BookDto(book.getId(), book.getTitle(), book.getAuthor(), book.getPubYear(),
                         Optional.ofNullable(book.getCopies()).map(List::size).orElse(0)))
                 .collect(Collectors.toList());
     }

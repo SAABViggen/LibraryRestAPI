@@ -25,8 +25,8 @@ public class Book {
     @Column(name = "author")
     private String author;
 
-    @Column(name = "publication_year")
-    private int publicationYear;
+    @Column(name = "pub_year")
+    private Integer pubYear;
 
     @OneToMany(
             targetEntity = Copy.class,

@@ -7,6 +7,8 @@ import com.crud.library.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @CrossOrigin(origins = "*")
@@ -25,8 +27,8 @@ public class CopyController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Copy updateCopy(@RequestBody Copy copy) {
-        return service.saveCopy(copy);
+    public Copy updateCopy(@RequestBody CopyDto copyDto) throws BookNotFoundException {
+        return service.saveCopy(mapper.mapToCopy(copyDto));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{copyId}")
@@ -37,5 +39,11 @@ public class CopyController {
     @RequestMapping(method = RequestMethod.GET, value = "/{bookId}")
     public void getAllCopies(@PathVariable Long bookId) throws BookNotFoundException {
         service.getAllCopies(bookId);
+    }
+
+    // Temporary
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Copy> getCopies() {
+        return service.getCopies();
     }
 }

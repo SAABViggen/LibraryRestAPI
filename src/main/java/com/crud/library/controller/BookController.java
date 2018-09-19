@@ -2,6 +2,7 @@ package com.crud.library.controller;
 
 import com.crud.library.domain.Book;
 import com.crud.library.domain.BookDto;
+import com.crud.library.domain.Copy;
 import com.crud.library.domain.SearchBookDto;
 import com.crud.library.mapper.BookMapper;
 import com.crud.library.service.DbService;
@@ -20,7 +21,7 @@ public class BookController {
     @Autowired
     DbService service;
     @Autowired
-    BookMapper bookMapper;
+    BookMapper mapper;
 
     @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
     public void createBook(@RequestBody Book book) {
@@ -29,7 +30,7 @@ public class BookController {
 
     @RequestMapping(method = RequestMethod.PUT)
     public BookDto updateBook(@RequestBody Book book) {
-        return bookMapper.mapToBookDto(service.saveBook(book));
+        return mapper.mapToBookDto(service.saveBook(book));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{bookId}")
@@ -38,12 +39,18 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{bookId}")
-    public Book getBook(@PathVariable Long bookId) throws BookNotFoundException {
-        return service.getBook(bookId).orElseThrow(BookNotFoundException::new);
+    public BookDto getBook(@PathVariable Long bookId) throws BookNotFoundException {
+        return mapper.mapToBookDto(service.getBook(bookId).orElseThrow(BookNotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/search")
     public List<BookDto> searchBook(SearchBookDto searchBookDto) {
-        return bookMapper.mapToBookDtoList(service.search(searchBookDto));
+        return mapper.mapToBookDtoList(service.search(searchBookDto));
+    }
+
+    // Temporary
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Book> getBooks() {
+        return service.getBooks();
     }
 }

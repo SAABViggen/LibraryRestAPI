@@ -5,6 +5,8 @@ import com.crud.library.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @CrossOrigin(origins = "*")
@@ -28,5 +30,11 @@ public class ReaderController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/{readerId}")
     public void deleteReader(@PathVariable Long readerId) {
         service.deleteReader(readerId);
+    }
+
+    // Temporary
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Reader> getReaders() {
+        return service.getReaders();
     }
 }

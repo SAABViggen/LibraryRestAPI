@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -62,15 +63,15 @@ public class DbService {
         return getBook(bookId).isPresent() ? getBook(bookId).get().getCopies() : new ArrayList<>();
     }
 
-    public Copy updateCopyStatus(final Rents rent, String status) {
+    @Transactional
+    public void updateCopyStatus(final Rents rent, String status) {
+        entityManager.joinTransaction();
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaUpdate<Copy> criteria = builder.createCriteriaUpdate(Copy.class);
         Root<Copy> root = criteria.from(Copy.class);
         criteria.set(root.get("status"), status);
-        criteria.where(builder.equal(root.get("id"), rent.getCopyId()));
+        criteria.where(builder.equal(root.get("id"), rent.getCopyId().getId()));
         entityManager.createQuery(criteria).executeUpdate();
-
-        return rent.getCopyId();
     }
 
     public Reader saveReader(final Reader reader) {
@@ -85,5 +86,30 @@ public class DbService {
         return rentsDao.save(rent);
     }
 
+    public void deleteRent(final Long id) { rentsDao.deleteById(id); }
 
+    // Temporary
+    public List<Book> getBooks() {
+        List<Book> result = new ArrayList<>();
+        bookDao.findAll().forEach(result::add);
+        return result;
+    }
+
+    public List<Copy> getCopies() {
+        List<Copy> result = new ArrayList<>();
+        copyDao.findAll().forEach(result::add);
+        return result;
+    }
+
+    public List<Reader> getReaders() {
+        List<Reader> result = new ArrayList<>();
+        readerDao.findAll().forEach(result::add);
+        return result;
+    }
+
+    public List<Rents> getRents() {
+        List<Rents> result = new ArrayList<>();
+        rentsDao.findAll().forEach(result::add);
+        return result;
+    }
 }
