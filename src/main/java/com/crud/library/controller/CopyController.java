@@ -1,6 +1,8 @@
 package com.crud.library.controller;
 
 import com.crud.library.domain.Copy;
+import com.crud.library.domain.CopyDto;
+import com.crud.library.mapper.CopyMapper;
 import com.crud.library.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +16,12 @@ public class CopyController {
 
     @Autowired
     DbService service;
+    @Autowired
+    CopyMapper mapper;
 
     @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
-    public void createCopy(@RequestBody Copy copy) {
-        service.saveCopy(copy);
+    public void createCopy(@RequestBody CopyDto copyDto) throws BookNotFoundException {
+        service.saveCopy(mapper.mapToCopy(copyDto));
     }
 
     @RequestMapping(method = RequestMethod.PUT)
