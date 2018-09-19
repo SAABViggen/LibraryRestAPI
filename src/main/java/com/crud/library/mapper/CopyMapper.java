@@ -15,6 +15,7 @@ public class CopyMapper {
 
     public Copy mapToCopy(final CopyDto copyDto) throws BookNotFoundException {
         return new Copy(
+                copyDto.getId(),
                 bookDao.findById(copyDto.getBookId()).orElseThrow(BookNotFoundException::new),
                 copyDto.getStatus());
     }

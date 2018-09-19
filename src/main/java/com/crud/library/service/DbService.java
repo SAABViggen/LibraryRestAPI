@@ -86,8 +86,6 @@ public class DbService {
         return rentsDao.save(rent);
     }
 
-    public void deleteRent(final Long id) { rentsDao.deleteById(id); }
-
     // Temporary
     public List<Book> getBooks() {
         List<Book> result = new ArrayList<>();

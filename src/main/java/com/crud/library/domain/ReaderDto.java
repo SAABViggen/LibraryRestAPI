@@ -9,11 +9,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class RentsDto {
+public class ReaderDto {
 
     private Long id;
-    private Long copyId;
-    private Long readerId;
-    private LocalDateTime rentDate;
-    private LocalDateTime returnDate;
+    private String name;
+    private String surname;
+    private LocalDateTime accountCreationDate;
 }

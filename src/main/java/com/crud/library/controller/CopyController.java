@@ -17,9 +17,9 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class CopyController {
 
     @Autowired
-    DbService service;
+    private DbService service;
     @Autowired
-    CopyMapper mapper;
+    private CopyMapper mapper;
 
     @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
     public void createCopy(@RequestBody CopyDto copyDto) throws BookNotFoundException {
@@ -37,8 +37,8 @@ public class CopyController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{bookId}")
-    public void getAllCopies(@PathVariable Long bookId) throws BookNotFoundException {
-        service.getAllCopies(bookId);
+    public List<Copy> getAllCopies(@PathVariable Long bookId) throws BookNotFoundException {
+        return service.getAllCopies(bookId);
     }
 
     // Temporary

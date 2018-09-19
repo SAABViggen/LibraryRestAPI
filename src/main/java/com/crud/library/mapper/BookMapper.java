@@ -26,4 +26,12 @@ public class BookMapper {
                         Optional.ofNullable(book.getCopies()).map(List::size).orElse(0)))
                 .collect(Collectors.toList());
     }
+
+    public Book mapToBook(final BookDto bookDto) {
+        return new Book(
+                bookDto.getTitle(),
+                bookDto.getAuthor(),
+                bookDto.getPubYear()
+        );
+    }
 }

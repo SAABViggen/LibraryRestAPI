@@ -34,7 +34,6 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
         }
         select.where(predicates.toArray(new Predicate[0]));
 
-
         return entityManager.createQuery(query).getResultList();
     }
 }

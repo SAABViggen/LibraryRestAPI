@@ -24,9 +24,4 @@ public class Copy {
 
     @Column(name = "status")
     private String status;
-
-    public Copy(Book bookId, String status) {
-        this.bookId = bookId;
-        this.status = status;
-    }
 }

@@ -32,11 +32,4 @@ public class Rents {
 
     @Column(name = "return_date")
     private LocalDateTime returnDate;
-
-    public Rents(Copy copyId, Reader readerId, LocalDateTime rentDate, LocalDateTime returnDate) {
-        this.copyId = copyId;
-        this.readerId = readerId;
-        this.rentDate = rentDate;
-        this.returnDate = returnDate;
-    }
 }

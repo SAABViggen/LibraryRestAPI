@@ -2,7 +2,6 @@ package com.crud.library.controller;
 
 import com.crud.library.domain.Book;
 import com.crud.library.domain.BookDto;
-import com.crud.library.domain.Copy;
 import com.crud.library.domain.SearchBookDto;
 import com.crud.library.mapper.BookMapper;
 import com.crud.library.service.DbService;
@@ -24,13 +23,13 @@ public class BookController {
     BookMapper mapper;
 
     @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
-    public void createBook(@RequestBody Book book) {
-        service.saveBook(book);
+    public void createBook(@RequestBody BookDto bookDto) {
+        service.saveBook(mapper.mapToBook(bookDto));
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public BookDto updateBook(@RequestBody Book book) {
-        return mapper.mapToBookDto(service.saveBook(book));
+    public BookDto updateBook(@RequestBody BookDto bookDto) {
+        return mapper.mapToBookDto(service.saveBook(mapper.mapToBook(bookDto)));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{bookId}")

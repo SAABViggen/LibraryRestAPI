@@ -35,4 +35,10 @@ public class Book {
             fetch = FetchType.LAZY
     )
     private List<Copy> copies;
+
+    public Book(String title, String author, Integer pubYear) {
+        this.title = title;
+        this.author = author;
+        this.pubYear = pubYear;
+    }
 }

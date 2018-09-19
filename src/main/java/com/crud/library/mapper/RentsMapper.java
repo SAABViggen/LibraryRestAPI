@@ -19,6 +19,7 @@ public class RentsMapper {
 
     public Rents mapToRent(final RentsDto rentsDto) throws CopyNotFoundException, ReaderNotFoundException {
         return new Rents(
+                rentsDto.getId(),
                 copyDao.findById(rentsDto.getCopyId()).orElseThrow(CopyNotFoundException::new),
                 readerDao.findById(rentsDto.getReaderId()).orElseThrow(ReaderNotFoundException::new),
                 rentsDto.getRentDate(),
