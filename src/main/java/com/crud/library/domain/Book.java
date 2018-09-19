@@ -36,7 +36,8 @@ public class Book {
     )
     private List<Copy> copies;
 
-    public Book(String title, String author, Integer pubYear) {
+    public Book(Long id, String title, String author, Integer pubYear) {
+        this.id = id;
         this.title = title;
         this.author = author;
         this.pubYear = pubYear;

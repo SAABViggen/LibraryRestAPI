@@ -4,13 +4,13 @@ public enum CopyStatus {
     RENTED {
         @Override
         public String toString() {
-            return "Rented";
+            return "rented";
         }
     },
     AVAILABLE {
         @Override
         public String toString() {
-            return "Available";
+            return "available";
         }
     }
 }
