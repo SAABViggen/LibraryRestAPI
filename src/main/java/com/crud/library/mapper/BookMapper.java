@@ -15,14 +15,20 @@ public class BookMapper {
         return new BookDto(
                 book.getId(),
                 book.getTitle(),
-                book.getAuthor(),
-                book.getPubYear(),
+                book.getAuthorName(),
+                book.getAuthorSurname(),
+                book.getPublicationYear(),
                 Optional.ofNullable(book.getCopies()).map(List::size).orElse(0));
     }
 
     public List<BookDto> mapToBookDtoList(final List<Book> books) {
         return books.stream()
-                .map(book -> new BookDto(book.getId(), book.getTitle(), book.getAuthor(), book.getPubYear(),
+                .map(book -> new BookDto(
+                        book.getId(),
+                        book.getTitle(),
+                        book.getAuthorName(),
+                        book.getAuthorSurname(),
+                        book.getPublicationYear(),
                         Optional.ofNullable(book.getCopies()).map(List::size).orElse(0)))
                 .collect(Collectors.toList());
     }
@@ -31,8 +37,9 @@ public class BookMapper {
         return new Book(
                 bookDto.getId(),
                 bookDto.getTitle(),
-                bookDto.getAuthor(),
-                bookDto.getPubYear()
+                bookDto.getAuthorName(),
+                bookDto.getAuthorSurname(),
+                bookDto.getPublicationYear()
         );
     }
 }

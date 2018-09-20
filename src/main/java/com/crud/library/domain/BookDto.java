@@ -13,7 +13,8 @@ public class BookDto {
 
     private Long id;
     private String title;
-    private String author;
-    private Integer pubYear;
+    private String authorName;
+    private String authorSurname;
+    private Integer publicationYear;
     private Integer copies;
 }

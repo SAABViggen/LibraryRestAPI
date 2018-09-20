@@ -9,5 +9,5 @@ import java.io.Serializable;
 @Setter
 public class SearchBookDto implements Serializable {
 
-    private String title, author;
+    private String title, authorName, authorSurname;
 }

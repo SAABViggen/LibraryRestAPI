@@ -22,11 +22,14 @@ public class Book {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "author")
-    private String author;
+    @Column(name = "author_name")
+    private String authorName;
 
-    @Column(name = "pub_year")
-    private Integer pubYear;
+    @Column(name = "author_surname")
+    private String authorSurname;
+
+    @Column(name = "publication_year")
+    private Integer publicationYear;
 
     @OneToMany(
             targetEntity = Copy.class,
@@ -36,10 +39,11 @@ public class Book {
     )
     private List<Copy> copies;
 
-    public Book(Long id, String title, String author, Integer pubYear) {
+    public Book(Long id, String title, String authorName, String authorSurname, Integer publicationYear) {
         this.id = id;
         this.title = title;
-        this.author = author;
-        this.pubYear = pubYear;
+        this.authorName = authorName;
+        this.authorSurname = authorSurname;
+        this.publicationYear = publicationYear;
     }
 }
