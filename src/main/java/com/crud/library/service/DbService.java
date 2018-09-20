@@ -72,6 +72,7 @@ public class DbService {
     }
 
     public Rents returnBook(final Rents rent) {
+        rent.setRentDate(rentsDao.findById(rent.getId()).get().getRentDate());
         rent.setReturnDate(LocalDateTime.now());
         updateCopyStatus(rent, CopyStatus.AVAILABLE.toString());
         return rentsDao.save(rent);

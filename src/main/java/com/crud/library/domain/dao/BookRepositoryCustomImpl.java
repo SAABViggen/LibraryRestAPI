@@ -30,10 +30,10 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
             predicates.add(builder.equal(book.get("title"), searchBookDto.getTitle()));
         }
         if (!searchBookDto.getAuthorName().isEmpty()) {
-            predicates.add(builder.equal(book.get("author_name"), searchBookDto.getAuthorName()));
+            predicates.add(builder.equal(book.get("authorName"), searchBookDto.getAuthorName()));
         }
         if (!searchBookDto.getAuthorSurname().isEmpty()) {
-            predicates.add(builder.equal(book.get("author_surname"), searchBookDto.getAuthorSurname()));
+            predicates.add(builder.equal(book.get("authorSurname"), searchBookDto.getAuthorSurname()));
         }
         select.where(predicates.toArray(new Predicate[0]));
 
