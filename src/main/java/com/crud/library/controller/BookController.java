@@ -14,17 +14,17 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/library/book")
+@RequestMapping("/v1/library/books")
 public class BookController {
 
     @Autowired
-    DbService service;
+    private DbService service;
     @Autowired
-    BookMapper mapper;
+    private BookMapper mapper;
 
     @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
-    public void createBook(@RequestBody BookDto bookDto) {
-        service.saveBook(mapper.mapToBook(bookDto));
+    public Book createBook(@RequestBody BookDto bookDto) {
+        return service.saveBook(mapper.mapToBook(bookDto));
     }
 
     @RequestMapping(method = RequestMethod.PUT)

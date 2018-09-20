@@ -13,7 +13,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/library/copy")
+@RequestMapping("/v1/library/copies")
 public class CopyController {
 
     @Autowired
@@ -22,8 +22,8 @@ public class CopyController {
     private CopyMapper mapper;
 
     @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
-    public void createCopy(@RequestBody CopyDto copyDto) throws BookNotFoundException {
-        service.saveCopy(mapper.mapToCopy(copyDto));
+    public Copy createCopy(@RequestBody CopyDto copyDto) throws BookNotFoundException {
+        return service.saveCopy(mapper.mapToCopy(copyDto));
     }
 
     @RequestMapping(method = RequestMethod.PUT)

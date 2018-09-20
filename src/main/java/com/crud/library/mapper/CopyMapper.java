@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class CopyMapper {
 
     @Autowired
-    BookDao bookDao;
+    private BookDao bookDao;
 
     public Copy mapToCopy(final CopyDto copyDto) throws BookNotFoundException {
         return new Copy(

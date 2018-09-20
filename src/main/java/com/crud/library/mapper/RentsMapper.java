@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 public class RentsMapper {
 
     @Autowired
-    CopyDao copyDao;
+    private CopyDao copyDao;
     @Autowired
-    ReaderDao readerDao;
+    private ReaderDao readerDao;
 
     public Rents mapToRent(final RentsDto rentsDto) throws CopyNotFoundException, ReaderNotFoundException {
         return new Rents(

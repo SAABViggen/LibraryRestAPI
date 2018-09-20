@@ -1,17 +1,13 @@
 package com.crud.library.service;
 
 import com.crud.library.controller.BookNotFoundException;
+import com.crud.library.controller.CopyStatus;
 import com.crud.library.domain.*;
 import com.crud.library.domain.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +22,11 @@ public class DbService {
     @Autowired
     private CopyDao copyDao;
     @Autowired
+    private CopyRepositoryCustomImpl copyRepository;
+    @Autowired
     private ReaderDao readerDao;
     @Autowired
     private RentsDao rentsDao;
-    @PersistenceContext
-    private EntityManager entityManager;
 
     public Book saveBook(final Book book) {
         return bookDao.save(book);
@@ -49,10 +45,7 @@ public class DbService {
     }
 
     public Copy saveCopy(final Copy copy) {
-        return bookDao.findById(copy.getBookId().getId()).map(book -> {
-            copy.setBookId(book);
-            return copyDao.save(copy);
-        }).orElseThrow(() -> new RuntimeException("book " + copy.getBookId() + " not found"));
+        return copyDao.save(copy);
     }
 
     public void deleteCopy(final Long id) {
@@ -60,18 +53,8 @@ public class DbService {
     }
 
     public List<Copy> getAllCopies(final Long bookId) throws BookNotFoundException {
-        return getBook(bookId).isPresent() ? getBook(bookId).get().getCopies() : new ArrayList<>();
-    }
-
-    @Transactional
-    public void updateCopyStatus(final Rents rent, String status) {
-        entityManager.joinTransaction();
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaUpdate<Copy> criteria = builder.createCriteriaUpdate(Copy.class);
-        Root<Copy> root = criteria.from(Copy.class);
-        criteria.set(root.get("status"), status);
-        criteria.where(builder.equal(root.get("id"), rent.getCopyId().getId()));
-        entityManager.createQuery(criteria).executeUpdate();
+        Optional<Book> book = getBook(bookId);
+        return book.isPresent() ? book.get().getCopies() : new ArrayList<>();
     }
 
     public Reader saveReader(final Reader reader) {
@@ -82,8 +65,20 @@ public class DbService {
         readerDao.deleteById(id);
     }
 
-    public Rents saveRent(final Rents rent) {
+    public Rents rentBook(final Rents rent) {
+        rent.setRentDate(LocalDateTime.now());
+        updateCopyStatus(rent, CopyStatus.RENTED.toString());
         return rentsDao.save(rent);
+    }
+
+    public Rents returnBook(final Rents rent) {
+        rent.setReturnDate(LocalDateTime.now());
+        updateCopyStatus(rent, CopyStatus.AVAILABLE.toString());
+        return rentsDao.save(rent);
+    }
+
+    private void updateCopyStatus(final Rents rent, String status) {
+        copyRepository.updateCopyStatus(rent, status);
     }
 
     // Temporary

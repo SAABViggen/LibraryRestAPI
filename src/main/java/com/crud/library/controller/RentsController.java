@@ -7,7 +7,6 @@ import com.crud.library.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
@@ -23,17 +22,13 @@ public class RentsController {
     private RentsMapper mapper;
 
     @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
-    public Rents createRent(@RequestBody RentsDto rentDto) throws CopyNotFoundException, ReaderNotFoundException {
-        rentDto.setRentDate(LocalDateTime.now());
-        service.updateCopyStatus(mapper.mapToRent(rentDto), CopyStatus.RENTED.toString());
-        return service.saveRent(mapper.mapToRent(rentDto));
+    public Rents rentBook(@RequestBody RentsDto rentDto) throws CopyNotFoundException, ReaderNotFoundException {
+        return service.rentBook(mapper.mapToRent(rentDto));
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Rents createReturn(@RequestBody RentsDto rentDto) throws CopyNotFoundException, ReaderNotFoundException {
-        rentDto.setReturnDate(LocalDateTime.now());
-        service.updateCopyStatus(mapper.mapToRent(rentDto), CopyStatus.AVAILABLE.toString());
-        return service.saveRent(mapper.mapToRent(rentDto));
+    public Rents returnBook(@RequestBody RentsDto rentDto) throws CopyNotFoundException, ReaderNotFoundException {
+        return service.returnBook(mapper.mapToRent(rentDto));
     }
 
     // Temporary

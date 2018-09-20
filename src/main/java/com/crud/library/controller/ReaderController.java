@@ -14,13 +14,13 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/library/reader")
+@RequestMapping("/v1/library/readers")
 public class ReaderController {
 
     @Autowired
-    DbService service;
+    private DbService service;
     @Autowired
-    ReaderMapper mapper;
+    private ReaderMapper mapper;
 
     @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
     public Reader createReader(@RequestBody ReaderDto readerDto) {
